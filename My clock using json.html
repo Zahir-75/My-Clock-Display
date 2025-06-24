@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Countdown Timer from JSON</title>
+    <script>
+        async function fetchTargetTime() {
+            try {
+                const response = await fetch('settings.json');
+                const data = await response.json();
+
+                const hour = data.target_hour;
+                const minute = data.target_minute;
+
+                startCountdown(hour, minute);
+            } catch (error) {
+                console.error("Error loading settings:", error);
+                document.getElementById("countdown").innerText = "Failed to load settings.";
+            }
+        }
+
+        function startCountdown(hour, minute) {
+            const targetTime = new Date();
+            targetTime.setHours(hour, minute, 0, 0);
+
+            function updateCountdown() {
+                const now = new Date();
+                const timeDiff = targetTime - now;
+
+                if (timeDiff <= 0) {
+                    document.getElementById("countdown").innerText = "Time's up!";
+                    return;
+                }
+
+                const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+                document.getElementById("countdown").innerText = `${hours}h ${minutes}m ${seconds}s remaining`;
+            }
+
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+        }
+    </script>
+</head>
+<body onload="fetchTargetTime()">
+    <h1>Countdown Timer</h1>
+    <p id="countdown">Loading...</p>
+</body>
+</html>

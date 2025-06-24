@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alarm Schedule from CSV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #eef2f3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background: #2c3e50;
+            color: white;
+        }
+        caption {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <table id="csvTable">
+        <caption>Alarm Schedule (Loaded from CSV)</caption>
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Label</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        async function loadCSV() {
+            try {
+                const response = await fetch('alarm.csv');
+                const text = await response.text();
+                const rows = text.trim().split("\n").slice(1); // Skip header
+                const tbody = document.querySelector("#csvTable tbody");
+
+                rows.forEach(row => {
+                    const [day, label, hour, minute] = row.split(",");
+                    const tr = document.createElement("tr");
+
+                    const tdDay = document.createElement("td");
+                    const tdLabel = document.createElement("td");
+                    const tdTime = document.createElement("td");
+
+                    tdDay.textContent = day;
+                    tdLabel.textContent = label;
+                    tdTime.textContent = `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
+
+                    tr.append(tdDay, tdLabel, tdTime);
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.error("Failed to load CSV:", err);
+                document.querySelector("#csvTable tbody").innerHTML = `<tr><td colspan="3">Error loading alarm data.</td></tr>`;
+            }
+        }
+
+        window.onload = loadCSV;
+    </script>
+</body>
+</html>

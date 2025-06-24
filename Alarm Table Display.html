@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weekly Alarms Schedule</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f2f2f2;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #004080;
+            color: white;
+        }
+        caption {
+            caption-side: top;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <table id="alarmTable">
+        <caption>Weekly Alarm Schedule</caption>
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Alarm Label</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Filled dynamically -->
+        </tbody>
+    </table>
+
+    <script>
+        async function loadAlarms() {
+            try {
+                const response = await fetch('alarms.json');
+                const data = await response.json();
+                const tbody = document.getElementById('alarmTable').getElementsByTagName('tbody')[0];
+
+                data.alarms.forEach(entry => {
+                    entry.alarms.forEach(alarm => {
+                        const row = tbody.insertRow();
+                        const cellDay = row.insertCell();
+                        const cellLabel = row.insertCell();
+                        const cellTime = row.insertCell();
+
+                        cellDay.textContent = entry.day;
+                        cellLabel.textContent = alarm.label;
+                        cellTime.textContent = `${alarm.hour.toString().padStart(2, '0')}:${alarm.minute.toString().padStart(2, '0')}`;
+                    });
+                });
+            } catch (err) {
+                console.error('Failed to load alarms.json:', err);
+                const tbody = document.getElementById('alarmTable').getElementsByTagName('tbody')[0];
+                const row = tbody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 3;
+                cell.textContent = 'Could not load alarm schedule.';
+            }
+        }
+
+        window.onload = loadAlarms;
+    </script>
+
+</body>
+</html>

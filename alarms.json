@@ -1,0 +1,25 @@
+{
+  "alarms": [
+    {
+      "day": "Monday",
+      "alarms": [
+        { "label": "alarm1", "hour": 10, "minute": 0 },
+        { "label": "alarm2", "hour": 14, "minute": 0 }
+      ]
+    },
+    {
+      "day": "Tuesday",
+      "alarms": [
+        { "label": "alarm1", "hour": 12, "minute": 0 },
+        { "label": "alarm2", "hour": 16, "minute": 0 }
+      ]
+    },
+    {
+      "day": "Wednesday",
+      "alarms": [
+        { "label": "alarm1", "hour": 13, "minute": 0 },
+        { "label": "alarm2", "hour": 18, "minute": 0 }
+      ]
+    }
+  ]
+}
