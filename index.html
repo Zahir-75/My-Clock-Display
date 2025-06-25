@@ -49,5 +49,19 @@
 <body onload="fetchTargetTime()">
     <h1>Countdown Timer</h1>
     <p id="countdown">Loading...</p>
+
+   <p> The Time NOW IS: </p>
+
+   <p id="Alarm"></p>
+<script>
+  function updateClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString();
+    document.getElementById('clock').textContent = timeString;
+  }
+
+  setInterval(updateClock, 1000); // Update every second
+  updateClock(); // Initialize immediately
+</script>
 </body>
 </html>
