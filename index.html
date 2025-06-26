@@ -45,15 +45,7 @@
             updateCountdown();
         }
     </script>
-</head>
-<body onload="fetchTargetTime()">
-    <h1>My Countdown Timer</h1>
-    <p id="countdown">Loading...</p>
-
-   <p> The Time NOW IS: </p>
-
-   <p id="Alarm">
-<script>
+   <script>
   function updateClock() {
     const now = new Date();
     const timeString = now.toLocaleTimeString();
@@ -63,6 +55,13 @@
   setInterval(updateClock, 1000); // Update every second
   updateClock(); // Initialize immediately
 </script>
-      </p>
+</head>
+<body onload="fetchTargetTime()">
+    <h1>My Countdown Timer</h1>
+    <p id="countdown">Loading...</p>
+
+   <p> The Time NOW IS: </p>
+
+   <p id="Alarm" onload ="updateClock()>     </p>
 </body>
 </html>
